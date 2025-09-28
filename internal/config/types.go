@@ -1,12 +1,12 @@
 package config
 
 type Config struct {
-	Postgres   PostgresCfg   `mapstructure:"postgres"`
-	HTTPServer HTTPServerCfg `mapstructure:"http_server"`
-	Redis      RedisCfg      `mapstructure:"redis"`
+	Postgres   Postgres   `mapstructure:"postgres"`
+	HTTPServer HTTPServer `mapstructure:"http_server"`
+	Redis      Redis      `mapstructure:"redis"`
 }
 
-type PostgresCfg struct {
+type Postgres struct {
 	Host     string `mapstructure:"host"`
 	Port     string `mapstructure:"port"`
 	User     string `mapstructure:"user"`
@@ -14,13 +14,13 @@ type PostgresCfg struct {
 	Password string `mapstructure:"password"`
 }
 
-type HTTPServerCfg struct {
+type HTTPServer struct {
 	Address     string `mapstructure:"address"`
 	Timeout     int    `mapstructure:"timeout"`
 	IdleTimeout int    `mapstructure:"idle_timeout"`
 }
 
-type RedisCfg struct {
+type Redis struct {
 	Host     string `mapstructure:"host"`
 	Port     string `mapstructure:"port"`
 	Password string `mapstructure:"password"`

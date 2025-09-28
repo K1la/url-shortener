@@ -14,6 +14,6 @@ func New(s ServiceI, v *validator.Validate) *Handler {
 }
 
 type CreateRequest struct {
-	URL      string `json:"url"       validate:"required"`
-	ShortURL string `json:"short_url" validate:"required"`
+	URL          string `json:"url"       validate:"required"`
+	UserShortURL string `json:"user_short_url" validate:"-"`
 }

@@ -29,13 +29,17 @@ func (h *Handler) CreateURLShort(c *ginext.Context) {
 
 	url := model.URL{
 		URL:       req.URL,
-		ShortURL:  req.ShortURL,
+		ShortURL:  req.UserShortURL,
 		CreatedAt: time.Now(),
 	}
 
 	res, err := h.service.CreateShortURL(c.Request.Context(), url)
 	if err != nil {
-
+		zlog.Logger.Error().Err(err).Msg("create short url error")
+		response.BadRequest(c.Writer, fmt.Errorf("create short url error: %s", err.Error()))
+		return
 	}
+
+	zlog.Logger.Debug().Msgf("create short url success: %+v", res)
 
 }
