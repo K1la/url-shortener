@@ -1,14 +1,11 @@
-package handlers
+package handler
 
 import (
-	"time"
-
-	"github.com/K1la/url-shortener/internal/model"
 	"github.com/go-playground/validator/v10"
 )
 
 type Handler struct {
-	service ServiceLinkI
+	service ServiceI
 	valid   *validator.Validate
 }
 
@@ -17,9 +14,6 @@ func New(s ServiceI, v *validator.Validate) *Handler {
 }
 
 type CreateRequest struct {
-	`json:"" validate:"required"`
-	`json:"" validate:"required"`
-	`json:"" validate:"required"`
-	`json:"" validate:"required"`
-	`json:"" validate:"required"`
+	URL      string `json:"url"       validate:"required"`
+	ShortURL string `json:"short_url" validate:"required"`
 }

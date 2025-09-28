@@ -17,7 +17,7 @@ func New(handler *handler.Handler) *ginext.Engine {
 	api := e.Group("/api/")
 	{
 		// TODO: доделать ручки
-		//api.POST("/shorten", handler.)
+		api.POST("/shorten", handler.Create)
 		//api.GET("/s/:shorten", handler.)
 		//api.GET("/analytics/:shorten", handler.)
 	}
