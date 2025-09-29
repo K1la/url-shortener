@@ -74,3 +74,14 @@ func (s *Service) CreateShortURL(ctx context.Context, url model.URL) (*model.URL
 	//
 	//return &urlInfo, nil
 }
+
+func (s *Service) SaveAnalytics(ctx context.Context, rURL *model.RedirectClicks) (string, error) {
+	id, err := s.repo.SaveAnalytics(ctx, rURL)
+	if err != nil {
+		return "", err
+	}
+
+	rURL.ID = id
+
+	return rURL.ID, nil
+}

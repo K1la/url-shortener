@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>URL Shortener</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="container">
+      <h1>Shortener</h1>
+      <p class="subtitle">Сокращай ссылки и смотри аналитику</p>
+    </header>
+
+    <main class="container grid">
+      <section class="card">
+        <h2>Создать короткую ссылку</h2>
+        <form id="create-form" class="form">
+          <label>
+            Оригинальный URL
+            <input type="url" id="long-url" placeholder="https://example.com/very/long/path" required />
+          </label>
+          <div class="row">
+            <label class="grow">
+              Кастомный алиас (необязательно)
+              <input type="text" id="custom-alias" placeholder="my-awesome-link" />
+            </label>
+            <button type="submit" class="primary">Сократить</button>
+          </div>
+        </form>
+
+        <div id="result" class="result hidden">
+          <p>Ваша короткая ссылка:</p>
+          <div class="result-row">
+            <a id="short-link" href="#" target="_blank" rel="noopener"></a>
+            <button id="copy-btn" class="ghost" aria-label="Copy">Копировать</button>
+          </div>
+        </div>
+        <div id="create-error" class="error hidden"></div>
+      </section>
+
+      <section class="card">
+        <h2>Аналитика</h2>
+        <form id="analytics-form" class="form">
+          <div class="row">
+            <label class="grow">
+              Короткий алиас
+              <input type="text" id="alias-for-analytics" placeholder="например: abc123" required />
+            </label>
+            <button type="submit" class="secondary">Показать</button>
+          </div>
+        </form>
+
+        <div id="analytics" class="analytics hidden">
+          <div class="stats">
+            <div class="stat"><span id="total-clicks">0</span><small>Переходов</small></div>
+            <div class="stat"><span id="unique-ua">0</span><small>Уник. User-Agent</small></div>
+          </div>
+
+          <h3>Переходы</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Время</th>
+                  <th>Устройство</th>
+                  <th>OS</th>
+                  <th>Браузер</th>
+                  <th>IP</th>
+                  <th>User-Agent</th>
+                </tr>
+              </thead>
+              <tbody id="clicks-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="analytics-error" class="error hidden"></div>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <span>© 2025 URL Shortener</span>
+      <a href="https://github.com/K1la/url-shortener" target="_blank" rel="noopener">GitHub</a>
+    </footer>
+
+    <script src="/app.js"></script>
+  </body>
+  </html>
+
+

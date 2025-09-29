@@ -23,3 +23,9 @@ func (r *Repository) CreateShortURL(ctx context.Context, url model.URL) (*model.
 	return &url, nil
 
 }
+
+func (r *Repository) SaveAnalytics(ctx context.Context, rUrl *model.RedirectClicks) (string, error) {
+	query := `
+	INSERT INTO analytics
+	`
+}

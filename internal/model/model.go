@@ -16,5 +16,6 @@ type RedirectClicks struct {
 	Device    string    `json:"device"`
 	OS        string    `json:"os"`
 	Browser   string    `json:"browser"`
+	IP        string    `json:"ip"`
 	CreatedAt time.Time `json:"created_at"`
 }

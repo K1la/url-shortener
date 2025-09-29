@@ -8,6 +8,7 @@ import (
 type RepositoryI interface {
 	CreateShortURL(context.Context, model.URL) (*model.URL, error)
 	GetShortURL(context.Context, string) (*model.URL, error)
+	SaveAnalytics(context.Context, *model.RedirectClicks) (string, error)
 }
 
 type CacheI interface {
