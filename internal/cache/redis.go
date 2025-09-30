@@ -13,7 +13,7 @@ type Redis struct {
 	client *redis.Client
 }
 
-func New(cfg config.RedisCfg) *Redis {
+func New(cfg config.Redis) *Redis {
 	password := os.Getenv("REDIS_PASSWORD")
 
 	client := redis.New(

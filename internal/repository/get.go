@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+
 	"github.com/K1la/url-shortener/internal/model"
 )
 
@@ -15,13 +16,13 @@ var (
 func (r *Repository) GetShortURL(ctx context.Context, shortUrl string) (*model.URL, error) {
 	query := `
 		SELECT id, url, short_url
-		FROM url
+		FROM urls
 		WHERE short_url = $1
 	`
 
 	var url model.URL
 	err := r.db.Master.QueryRowContext(ctx, query, shortUrl).
-		Scan(&url.ID, &url.ShortURL, &url.ShortURL)
+		Scan(&url.ID, &url.URL, &url.ShortURL)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrShortURLNotFound

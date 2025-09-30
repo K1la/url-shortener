@@ -7,7 +7,7 @@ postgres:
   host: "db"
   port: "5432"
   user: "postgres"
-  name: "url-shortener"
+  name: "postgres-url-shortener"
   password: "" # set via .env DB_PASSWORD
 
 redis:

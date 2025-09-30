@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
+
 	"github.com/K1la/url-shortener/internal/model"
 )
 
@@ -26,6 +27,17 @@ func (r *Repository) CreateShortURL(ctx context.Context, url model.URL) (*model.
 
 func (r *Repository) SaveAnalytics(ctx context.Context, rUrl *model.RedirectClicks) (string, error) {
 	query := `
-	INSERT INTO analytics
+	INSERT INTO analytics (
+        short_url, user_agent, device_type, os, browser, ip_address
+	) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;
 	`
+
+	err := r.db.Master.QueryRowContext(
+		ctx, query, rUrl.ShortURL, rUrl.UserAgent, rUrl.Device, rUrl.OS, rUrl.Browser, rUrl.IP,
+	).Scan(&rUrl.ID)
+	if err != nil {
+		return "", fmt.Errorf("insert analytics row into db: %w", err)
+	}
+
+	return rUrl.ID, nil
 }

@@ -17,10 +17,13 @@ func New(handler *handler.Handler) *ginext.Engine {
 	api := e.Group("/api/")
 	{
 		// TODO: доделать ручки
-		api.POST("/shorten", handler.Create)
-		//api.GET("/s/:shorten", handler.)
-		//api.GET("/analytics/:shorten", handler.)
+		api.POST("/shorten", handler.CreateURLShort)
+		api.GET("/s/:shorten", handler.GetShortURL)
+		//api.GET("/analytics/:shorten", handler.GetAnalytics)
 	}
+
+	// Public redirect route (not under /api)
+	//e.GET("/s/:shorten", handler.GetShortURL)
 
 	// Frontend: serve files from ./web without conflicting wildcard
 	e.NoRoute(func(c *ginext.Context) {

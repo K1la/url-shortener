@@ -44,10 +44,11 @@ createForm.addEventListener('submit', async (e) => {
       user_short_url: customAliasInput.value.trim() || undefined,
     };
     const data = await api.create(payload);
-    // Try to detect returned fields; gracefully build link
-    const alias = data.short_url || data.ShortURL || payload.user_short_url;
+    // API returns { result: { url, short_url, ... } }
+    const result = data && (data.result || data.Result || data);
+    const alias = (result && (result.short_url || result.ShortURL)) || payload.user_short_url;
     const base = window.location.origin;
-    const href = alias ? `${base}/s/${alias}` : (data.url || data.URL || base);
+    const href = alias ? `${base}/api/s/${alias}` : (result.url || result.URL || base);
     shortLink.textContent = href;
     shortLink.href = href;
     show(resultBox);
@@ -66,6 +67,17 @@ copyBtn.addEventListener('click', async () => {
   } catch (_) {
     // noop
   }
+});
+
+// Open short link
+const openForm = byId('open-form');
+const openAlias = byId('open-alias');
+openForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const alias = openAlias.value.trim();
+  if (!alias) return;
+  const href = `${window.location.origin}/api/s/${encodeURIComponent(alias)}`;
+  window.open(href, '_blank');
 });
 
 // Analytics
