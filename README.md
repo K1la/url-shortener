@@ -87,7 +87,7 @@ url-shortener/
 
 ### 1. Клонирование репозитория
 ```bash
-git clone <repository-url>
+git clone https://github.com/K1la/url-shortener
 cd url-shortener
 ```
 
@@ -99,7 +99,7 @@ DB_HOST=db
 DB_PORT=5432
 DB_USER=your_name
 DB_PASSWORD=your_password
-DB_NAME=url-shortener
+DB_NAME=postgres-url-shortener
 GOOSE_DRIVER=postgres
 GOOSE_MIGRATION_DIR=/migrations
 REDIS_PASSWORD=redispass
