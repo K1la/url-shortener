@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+
 	"github.com/K1la/url-shortener/internal/model"
 	"github.com/K1la/url-shortener/internal/repository"
+	"github.com/wb-go/wbf/zlog"
 )
 
 var (
@@ -42,37 +44,20 @@ func (s *Service) CreateShortURL(ctx context.Context, url model.URL) (*model.URL
 		return nil, fmt.Errorf("failed to create short url: %w", err)
 	}
 
-	b, err := json.Marshal(res)
-	if err != nil {
-		return nil, fmt.Errorf("marshal short url: %w", err)
+	//b, err := json.Marshal(res)
+	//if err != nil {
+	//	return nil, fmt.Errorf("marshal short url: %w", err)
+	//}
+	//
+	//err = s.cache.Set(url.ShortURL, string(b))
+
+	if b, err := json.Marshal(res); err == nil {
+		if err = s.cache.Set(url.ShortURL, string(b)); err != nil {
+			zlog.Logger.Error().Err(err).Str("url", url.ShortURL).Msg("failed to cache short url")
+		}
 	}
 
-	err = s.cache.Set(url.URL, string(b))
-
 	return res, err
-
-	//shortUrl, err := s.cache.Get(url.URL)
-	//if err != nil {
-	//	return nil, fmt.Errorf("failed to fetch short url from cache: %w", err)
-	//}
-	//
-	//if errors.Is(err, redis.Nil) {
-	//	attempts := 3
-	//	for range attempts {
-	//		url.ShortURL = generateShortLink()
-	//		urlInfo, err := s.repo.CreateShortURL(ctx, url)
-	//		if err == nil {
-	//			return urlInfo, nil
-	//		}
-	//	}
-	//	return nil, err
-	//}
-	//
-	//var urlInfo model.URL
-	//urlInfo.URL = url.URL
-	//urlInfo.ShortURL = shortUrl
-	//
-	//return &urlInfo, nil
 }
 
 func (s *Service) SaveAnalytics(ctx context.Context, rURL *model.RedirectClicks) (string, error) {
@@ -82,6 +67,24 @@ func (s *Service) SaveAnalytics(ctx context.Context, rURL *model.RedirectClicks)
 	}
 
 	rURL.ID = id
+
+	go func() {
+		bgCtx := context.Background()
+
+		summary, err := s.GetAnalyticsSummary(bgCtx, rURL.ShortURL)
+		if err != nil {
+			zlog.Logger.Error().Err(err).Str("shorturl", rURL.ShortURL).Msg("failed to get analytics summary from cache")
+			return
+		}
+
+		if b, err := json.Marshal(summary); err == nil {
+			if err := s.cache.Set("analytics:"+rURL.ShortURL, string(b)); err != nil {
+				zlog.Logger.Error().Err(err).Str("shorturl", rURL.ShortURL).Msg("failed to cache aggregated analytics")
+			}
+		}
+
+		zlog.Logger.Info().Str("shorturl", rURL.ShortURL).Msg("saved analytics")
+	}()
 
 	return rURL.ID, nil
 }

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Аналитика - URL Shortener</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="analytics-container">
+      <a href="/" class="back-link">
+        ← Вернуться к созданию ссылок
+      </a>
+      
+      <div class="analytics-header">
+        <h1>Аналитика переходов</h1>
+        <p>Отслеживайте статистику по вашим коротким ссылкам</p>
+      </div>
+      
+      <div class="analytics-form">
+        <h2>Получить аналитику</h2>
+        <form id="analytics-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="alias-input">Короткий алиас</label>
+              <input 
+                type="text" 
+                id="alias-input" 
+                placeholder="например: abc123" 
+                required 
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Показать аналитику
+            </button>
+          </div>
+        </form>
+        <div id="analytics-error" class="error hidden"></div>
+      </div>
+      
+      <div id="analytics-results" class="analytics-results hidden">
+        <div class="results-header">
+          <h3>Результаты аналитики</h3>
+          <div class="period-tabs">
+            <button class="period-tab active" data-period="daily">По дням</button>
+            <button class="period-tab" data-period="monthly">По месяцам</button>
+          </div>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3 id="total-clicks">0</h3>
+            <p>Всего переходов</p>
+          </div>
+          <div class="stat-card">
+            <h3 id="unique-ua">0</h3>
+            <p>Уникальных User-Agent</p>
+          </div>
+          <div class="stat-card">
+            <h3 id="today-clicks">0</h3>
+            <p>Переходов сегодня</p>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <div id="chart-placeholder">
+            📊 График переходов по времени
+          </div>
+        </div>
+        
+        <div class="table-container">
+          <table class="analytics-table">
+            <thead>
+              <tr>
+                <th>Период</th>
+                <th>Переходы</th>
+                <th>Процент</th>
+              </tr>
+            </thead>
+            <tbody id="analytics-table-body">
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div id="loading" class="loading hidden">
+        Загрузка аналитики...
+      </div>
+      
+      <div id="empty-state" class="empty-state hidden">
+        <h3>Нет данных</h3>
+        <p>По данному алиасу пока нет переходов</p>
+      </div>
+    </div>
+    
+    <script src="analytics.js"></script>
+  </body>
+</html>

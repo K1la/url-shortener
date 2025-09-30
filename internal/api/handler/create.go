@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"time"
 
 	"github.com/K1la/url-shortener/internal/api/response"
 	"github.com/K1la/url-shortener/internal/model"
@@ -77,13 +76,17 @@ func (h *Handler) createAnalytics(c *gin.Context, rUrl *model.RedirectClicks) *m
 	}
 }
 
-func (h *Handler) saveAnalytics(c *gin.Context, rUrl *model.RedirectClicks) {
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-	defer cancel()
+func (h *Handler) saveAnalytics(rUrl *model.RedirectClicks) {
+	ctx := context.Background()
+
 	id, err := h.service.SaveAnalytics(ctx, rUrl)
 	if err != nil {
 		zlog.Logger.Error().Err(err).Str("shortUrl", rUrl.ShortURL).Msg("save analytics failed")
 		return
+	}
+
+	if err := h.service.InvalidateAnalyticsCache(ctx, rUrl.ShortURL); err != nil {
+		zlog.Logger.Error().Err(err).Str("shortUrl", rUrl.ShortURL).Msg("failed to invalidate analytics cache")
 	}
 
 	zlog.Logger.Info().Str("id", id).Interface("rUrl", rUrl).Msg("save analytics success")

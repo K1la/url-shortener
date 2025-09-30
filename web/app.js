@@ -80,56 +80,7 @@ openForm.addEventListener('submit', (e) => {
   window.open(href, '_blank');
 });
 
-// Analytics
-const analyticsForm = byId('analytics-form');
-const aliasInput = byId('alias-for-analytics');
-const analyticsBox = byId('analytics');
-const analyticsErr = byId('analytics-error');
-const totalClicksEl = byId('total-clicks');
-const uniqueUaEl = byId('unique-ua');
-const clicksBody = byId('clicks-body');
-
-analyticsForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  hide(analyticsErr);
-  hide(analyticsBox);
-  clicksBody.innerHTML = '';
-  try {
-    const alias = aliasInput.value.trim();
-    const data = await api.analytics(alias);
-    // Expecting structure like: { total, clicks: [{time, device, os, browser, ip, user_agent}], ... }
-    const clicks = data.clicks || data.items || data || [];
-    totalClicksEl.textContent = (data.total ?? clicks.length).toString();
-
-    const uas = new Set();
-    clicks.forEach((c) => {
-      const when = c.time || c.created_at || c.CreatedAt || c.timestamp;
-      const device = c.device || c.Device || '';
-      const os = c.os || c.OS || '';
-      const browser = c.browser || c.Browser || '';
-      const ip = c.ip || c.IP || '';
-      const ua = c.user_agent || c.UserAgent || '';
-      if (ua) uas.add(ua);
-      const dt = when ? new Date(when) : null;
-      const dtStr = dt ? dt.toLocaleString() : '';
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${dtStr}</td>
-        <td>${escapeHtml(device)}</td>
-        <td>${escapeHtml(os)}</td>
-        <td>${escapeHtml(browser)}</td>
-        <td>${escapeHtml(ip)}</td>
-        <td>${escapeHtml(ua)}</td>
-      `;
-      clicksBody.appendChild(tr);
-    });
-    uniqueUaEl.textContent = uas.size.toString();
-    show(analyticsBox);
-  } catch (err) {
-    analyticsErr.textContent = err.message || 'Ошибка при получении аналитики';
-    show(analyticsErr);
-  }
-});
+// Analytics removed - now handled on separate page
 
 function escapeHtml(str){
   return String(str || '')

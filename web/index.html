@@ -57,40 +57,10 @@
 
       <section class="card">
         <h2>Аналитика</h2>
-        <form id="analytics-form" class="form">
-          <div class="row">
-            <label class="grow">
-              Короткий алиас
-              <input type="text" id="alias-for-analytics" placeholder="например: abc123" required />
-            </label>
-            <button type="submit" class="secondary">Показать</button>
-          </div>
-        </form>
-
-        <div id="analytics" class="analytics hidden">
-          <div class="stats">
-            <div class="stat"><span id="total-clicks">0</span><small>Переходов</small></div>
-            <div class="stat"><span id="unique-ua">0</span><small>Уник. User-Agent</small></div>
-          </div>
-
-          <h3>Переходы</h3>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Время</th>
-                  <th>Устройство</th>
-                  <th>OS</th>
-                  <th>Браузер</th>
-                  <th>IP</th>
-                  <th>User-Agent</th>
-                </tr>
-              </thead>
-              <tbody id="clicks-body"></tbody>
-            </table>
-          </div>
-        </div>
-        <div id="analytics-error" class="error hidden"></div>
+        <p>Отслеживайте статистику переходов по вашим коротким ссылкам</p>
+        <a href="analytics.html" class="primary" style="display: inline-block; text-decoration: none; padding: 0.75rem 1.5rem; background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.00)), var(--accent); color: #0b1220; border-radius: 8px; font-weight: 600; transition: background 0.2s;">
+          Открыть аналитику
+        </a>
       </section>
     </main>
 

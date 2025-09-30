@@ -2,9 +2,10 @@ package cache
 
 import (
 	"context"
-	"github.com/K1la/url-shortener/internal/config"
 	"os"
 	"time"
+
+	"github.com/K1la/url-shortener/internal/config"
 
 	"github.com/wb-go/wbf/redis"
 )
@@ -33,4 +34,8 @@ func (r *Redis) Get(key string) (string, error) {
 
 func (r *Redis) Set(key string, val any) error {
 	return r.client.SetEX(context.Background(), key, val, 24*time.Hour).Err()
+}
+
+func (r *Redis) Delete(key string) error {
+	return r.client.Del(context.Background(), key).Err()
 }
